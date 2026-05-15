@@ -95,32 +95,21 @@ Dự án này kết hợp **Các kỹ thuật SQL Nâng cao** để cải thiệ
 ---
 
 ## 🔧 **Công nghệ sử dụng (Technologies Used)**  
-- **Database**: SQLite  
-- **Query Language**: SQL  
-- **Data Processing**: Pandas  
-- **Visualization**: Matplotlib, Seaborn  
-- **Development Environment**: Jupyter Notebook  
+- **Database**: SQL Server  
+- **Query Language**: Advanced SQL (T-SQL)  
+- **Data Processing**: SQL Server / VS Code  
 
 ---
 
-## 📂 **Cấu trúc File & Repository (Project Files & Repository Structure)**  
-📁 `Ecommerce_SQL_DATAProject.db` – File cơ sở dữ liệu SQLite  
-📁 `ecommerce_schema.sql` – Tập hợp các script SQL được sử dụng trong phân tích  
-📁 `E_Commerce_Analysis_using_Advanced_SQL.ipynb` – Jupyter Notebook để thực thi SQL & trực quan hóa  
-📁 `E_Commerce_Analysis_using_Advanced_SQL.html` – Tóm tắt các thông tin chi tiết & đề xuất chính  
-📁 `README.md` – Tài liệu tổng quan dự án và các phát hiện  
-
----
-
-## 🛠 **Cách chạy dự án (How to Run the Project)**  
-1️⃣ **Clone repository này**  
-```sh
-git clone https://github.com/yourusername/E-Commerce-Analysis-Using-Advanced-SQL.git
-cd ecommerce-sql-analysis
+## 📂 **Cấu trúc Thư mục (Repository Structure)**  
+```text
+📁 data                 
+ ┣ 📁 raw               <-- File dataset thô ban đầu
+ ┗ 📁 cleaned           <-- Các file dữ liệu đã được chuẩn hóa (Orders, Customers, etc.)
+📁 sql                  <-- Chứa các script SQL Server để khởi tạo và truy vấn
+📁 notebooks            <-- Jupyter Notebooks phân tích
+📜 README.md            <-- Tài liệu tổng quan dự án
 ```
-2️⃣ **Load database (`Ecommerce_SQL_DATAProject.db`) vào SQLite hoặc DB Browser for SQLite.**  
-3️⃣ **Thực thi các truy vấn SQL từ file `ecommerce_schema.sql` để khám phá insight.**  
-4️⃣ **Chạy file `E_Commerce_Analysis_using_Advanced_SQL.ipynb` trong Jupyter Notebook để trực quan hóa các xu hướng bằng Python.**  
 
 ---
 
@@ -128,12 +117,3 @@ cd ecommerce-sql-analysis
 📌 **Sử dụng Machine Learning** để dự đoán xu hướng bán hàng trong tương lai.  
 📌 **Nâng cao phân khúc khách hàng bằng các thuật toán phân cụm (clustering algorithms).**  
 📌 **Phát triển Dashboard tương tác bằng Power BI hoặc Tableau.**  
-
----
-
-## 👤 **Tác giả (Author)**  
-🔹 **Lasya Priya Konduru**  
-📧 **konduru.lasya@gmail.com**  
-🔗 **LinkedIn: (https://www.linkedin.com/in/lasya-priya-k/)**  
-
-Nếu bạn thấy dự án này hữu ích, **⭐ Star repository này** và thoải mái đóng góp nhé! 🚀
