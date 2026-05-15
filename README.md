@@ -17,7 +17,7 @@ Sử dụng **Các kỹ thuật SQL nâng cao (Advanced SQL Techniques)** và **
 ---
 
 ## 📂 **Tổng quan Dữ liệu (Dataset Overview)**  
-- **Nguồn dữ liệu (Source)**: Hồ sơ giao dịch E-Commerce với **51.290 dòng** và **16 cột**.  
+- **Nguồn dữ liệu (Source)**: Hồ sơ giao dịch E-Commerce với **51.290 dòng** và **16 cột**. ([E-commerce Dataset trên Kaggle](https://www.kaggle.com/datasets/mervemenekse/ecommerce-dataset))  
 - **Tiền xử lý dữ liệu (Data Transformation)**: Dữ liệu thô đã được **chuẩn hóa (normalized) thành 4 bảng** để truy vấn hiệu quả hơn:
   - `Orders` – Chi tiết đơn hàng, bao gồm doanh số (sales), lợi nhuận (profit), và chi phí vận chuyển (shipping costs).  
   - `Customers` – Thông tin nhân khẩu học của khách hàng như giới tính (gender), loại đăng nhập (login type), và thiết bị (device).  
