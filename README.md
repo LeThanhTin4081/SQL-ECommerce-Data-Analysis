@@ -104,16 +104,26 @@ Dự án này kết hợp **Các kỹ thuật SQL Nâng cao** để cải thiệ
 ## 📂 **Cấu trúc Thư mục (Repository Structure)**  
 ```text
 📁 data                 
- ┣ 📁 raw               <-- File dataset thô ban đầu
- ┗ 📁 cleaned           <-- Các file dữ liệu đã được chuẩn hóa (Orders, Customers, etc.)
-📁 sql                  <-- Chứa các script SQL Server để khởi tạo và truy vấn
-📁 notebooks            <-- Jupyter Notebooks phân tích
+ ┣ 📁 raw               <-- File dataset thô ban đầu (E-commerce Dataset.csv)
+ ┗ 📁 cleaned           <-- Các file dữ liệu đã được làm sạch và chuẩn hóa (nếu có)
+📁 sql                  
+ ┣ 📜 01_setup_and_import.sql   <-- Script nạp dữ liệu thô (ETL)
+ ┣ 📜 02_data_normalization.sql <-- Script chuẩn hóa cấu trúc 3NF
+ ┗ 📜 03_advanced_analytics.sql <-- Script phân tích Insight kinh doanh
+📜 DATA_PIPELINE.md     <-- Tài liệu giải thích kiến trúc Data Pipeline
 📜 README.md            <-- Tài liệu tổng quan dự án
 ```
 
 ---
 
-## 🔮 **Định hướng Phát triển (Future Enhancements)**  
-📌 **Sử dụng Machine Learning** để dự đoán xu hướng bán hàng trong tương lai.  
-📌 **Nâng cao phân khúc khách hàng bằng các thuật toán phân cụm (clustering algorithms).**  
-📌 **Phát triển Dashboard tương tác bằng Power BI hoặc Tableau.**  
+## 🔮 **Giai đoạn 2: Định hướng Tích hợp Machine Learning (Upcoming Phase)**  
+Sau khi hoàn thiện nền tảng Data Warehouse và Data Model bằng SQL Server, dự án sẽ được mở rộng sang Phân tích Dự đoán (Predictive Analytics) bằng Machine Learning:
+
+📌 **Customer Segmentation (Phân cụm Khách hàng):** 
+Áp dụng thuật toán **K-Means Clustering** trên dữ liệu RFM (Recency, Frequency, Monetary) được trích xuất từ SQL để tự động phân nhóm khách hàng (VIP, Bargain Hunters, Churn-risk).
+
+📌 **Profit/Sales Prediction (Dự đoán Lợi nhuận/Doanh thu):** 
+Sử dụng các mô hình học có giám sát như **XGBoost Regressor** hoặc **Random Forest** để dự báo biên lợi nhuận (Profit Margin) của các chiến dịch giảm giá và chính sách vận chuyển mới.
+
+📌 **End-to-end Data Dashboard:** 
+Kết nối trực tiếp Database SQL Server với **Power BI** để xây dựng báo cáo động (Interactive Dashboard), kết hợp cả dữ liệu lịch sử và kết quả dự báo từ AI.
