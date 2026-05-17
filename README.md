@@ -23,6 +23,8 @@ Bộ dữ liệu gốc gồm **51,290 đơn hàng** giao dịch trong toàn bộ
 | **Dữ liệu (Data)**     | Cấu trúc dữ liệu raw/cleaned, Data Dictionary chi tiết          | [`data/`](./data/)                       |
 | **Kiến trúc Pipeline** | Luồng xử lý ELT, mô hình cơ sở dữ liệu 3NF                      | [`DATA_PIPELINE.md`](./DATA_PIPELINE.md) |
 | **Báo cáo Analytics**  | 10 truy vấn T-SQL phức tạp kèm hình ảnh kết quả và Key Insights | [`sql/`](./sql/)                         |
+| **ML Segmentation**    | K-Means Clustering (RFM) phân nhóm 38,995 khách hàng            | [`machine_learning/`](./machine_learning/) |
+| **Dashboard**          | Streamlit Dashboard tương tác: 4 trang báo cáo trực quan        | [`dashboard/`](./dashboard/)             |
 
 ---
 
@@ -103,7 +105,28 @@ Thực thi 10 kịch bản truy vấn phân tích đa chiều (Sales, Operations
 
 ---
 
-## 💡 6. Đề xuất Kinh doanh (Business Recommendations)
+## 📊 6. Dashboard Tương tác (Interactive Dashboard)
+
+Toàn bộ kết quả phân tích SQL và ML được trực quan hóa thành **Streamlit Dashboard** gồm 4 trang:
+
+| Trang | Nội dung | Highlights |
+|-------|---------|-----------|
+| **Overview** | 5 KPI cards, xu hướng doanh thu 12 tháng, phân bổ danh mục, Top 5 sản phẩm | Glassmorphism cards, Area chart |
+| **Sales & Products** | Combo chart, Running total, Heatmap, Ranking table, Treemap, So sánh quý | Filters: tháng, danh mục, Top N |
+| **Customers & Ops** | Demographics, VIP table, Aging histogram, Shipping cost, Payment analysis | Filters: giới tính, thiết bị, ưu tiên |
+| **ML Segmentation** | 3 Cluster cards, RFM Radar, Donut phân bổ, Đề xuất Marketing | K-Means (K=3) hardcoded results |
+
+**Chạy Dashboard:**
+
+```bash
+cd dashboard
+pip install -r requirements.txt
+python -m streamlit run Overview.py
+```
+
+---
+
+## 💡 7. Đề xuất Kinh doanh (Business Recommendations)
 
 📌 **Tối ưu hóa Hiệu suất Xử lý Đơn hàng**
 
@@ -132,15 +155,17 @@ Thực thi 10 kịch bản truy vấn phân tích đa chiều (Sales, Operations
 
 ---
 
-## 🔧 7. Công nghệ sử dụng (Technologies Used)
+## 🔧 8. Công nghệ sử dụng (Technologies Used)
 
 - **Database**: SQL Server
 - **Query Language**: Advanced SQL (T-SQL)
 - **Data Processing**: SQL Server / VS Code
+- **Dashboard**: Streamlit, Plotly, Pandas
+- **Machine Learning**: scikit-learn (K-Means Clustering, RFM)
 
 ---
 
-## 🔗 8. Cấu trúc thư mục (Repository Structure)
+## 🔗 9. Cấu trúc thư mục (Repository Structure)
 
 ```text
 ECommerceAnalysis/
@@ -154,7 +179,17 @@ ECommerceAnalysis/
 │   ├── 02_data_normalization.sql
 │   ├── 03_advanced_analytics.sql
 │   └── README.md
+├── machine_learning/               # K-Means Clustering (RFM)
+│   ├── customer_segmentation.ipynb
+│   └── README.md
+├── dashboard/                      # Streamlit Dashboard (Interactive)
+│   ├── Overview.py                 # Trang chính: KPI + Xu hướng
+│   ├── pages/
+│   │   ├── 1_Sales_and_Products.py # Phân tích doanh thu & sản phẩm
+│   │   ├── 2_Customers_and_Ops.py  # Khách hàng & Vận hành
+│   │   └── 3_ML_Segmentation.py    # Kết quả K-Means Clustering
+│   ├── utils/                      # Data loader, Charts, CSS theme
+│   └── requirements.txt
 ├── DATA_PIPELINE.md                # Kiến trúc ELT Pipeline
-├── ML_ROADMAP.md                   # Định hướng Machine Learning (Phase 2)
 └── README.md                       # Báo cáo tổng quan dự án (File hiện tại)
 ```
