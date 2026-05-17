@@ -3,7 +3,7 @@
 ## 📖 **Tổng quan Dự án (Project Overview)**  
 Dự án này phân tích **quy trình xử lý đơn hàng (order fulfillment process)** của một doanh nghiệp thương mại điện tử (e-commerce), bao gồm **xu hướng bán hàng (sales trends), hiệu suất sản phẩm (product performance), phân khúc khách hàng (customer segmentation), tối ưu hóa chi phí vận chuyển (shipping cost optimization), và phân tích phương thức thanh toán (payment method analysis)**.  
 
-Sử dụng **Các kỹ thuật SQL nâng cao (Advanced SQL Techniques)** và **trực quan hóa dữ liệu bằng Python (Python-based data visualization)**, chúng tôi trích xuất những thông tin chuyên sâu để giúp doanh nghiệp **cải thiện logistics, tăng doanh số, và nâng cao mức độ hài lòng của khách hàng**.  
+Sử dụng **Các kỹ thuật SQL nâng cao (Advanced SQL Techniques)** kết hợp tư duy thiết kế **Data Pipeline (ELT)**, dự án trích xuất những thông tin chuyên sâu để giúp doanh nghiệp **cải thiện logistics, tăng doanh số, và nâng cao mức độ hài lòng của khách hàng**.  
 
 ---
 
