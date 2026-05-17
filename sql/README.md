@@ -2,7 +2,7 @@
 
 Phân tích Dữ liệu trong dự án E-Commerce của tôi. Mục tiêu của phần này là **chứng minh khả năng tư duy phân tích (Analytical Thinking)** và **kỹ năng xử lý T-SQL phức tạp** (bao gồm CTEs, Window Functions, và Recursive Queries) ứng dụng vào thực tế doanh nghiệp.
 
-Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi đã giải quyết trong kịch bản `03_advanced_analytics.sql`. Đối với mỗi truy vấn, tôi không chỉ dừng lại ở việc trích xuất số liệu mà còn đúc kết ra một dòng **Key Insight** để minh chứng cho khả năng Business Sense của mình.
+Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi đã giải quyết trong kịch bản `03_advanced_analytics.sql` (dựa trên tập dữ liệu lịch sử năm 2018). Đối với mỗi truy vấn, tôi không chỉ dừng lại ở việc trích xuất số liệu mà còn đúc kết ra một dòng **Key Insight** để minh chứng cho khả năng Business Sense của mình.
 
 ---
 
@@ -88,7 +88,7 @@ Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi
 
 ## 🎯 Tổng kết Kinh doanh (Executive Summary)
 
-Dựa trên 10 kết quả truy vấn phân tích dữ liệu ở trên, có thể đúc kết bức tranh toàn cảnh về doanh nghiệp như sau:
+Dựa trên 10 kết quả truy vấn phân tích dữ liệu ở trên, có thể đúc kết bức tranh toàn cảnh về doanh nghiệp trong năm tài chính 2018 như sau:
 
 1. **Hiệu quả Sinh lời & Sản phẩm cốt lõi:** Doanh nghiệp đang có tỷ suất lợi nhuận xuất sắc (46.2%). Đóng góp lớn nhất vào nguồn thu này là mảng **Thời trang (Fashion)**, tuân thủ đúng quy tắc Pareto (80/20). Cần dồn ngân sách Marketing vào mảng này và có chính sách thanh lý các mặt hàng tồn kho top dưới.
 2. **Chân dung Khách hàng VIP:** Tệp khách hàng chi tiêu mạnh tay nhất là **100% Nam giới**. Đây là "mỏ vàng" để triển khai các chiến dịch quảng cáo nhắm mục tiêu (Targeted Ads) và bán chéo (Cross-sell) chuyên biệt.
