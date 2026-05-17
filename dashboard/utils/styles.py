@@ -74,13 +74,64 @@ CUSTOM_CSS = """
 
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
 
     html { scroll-behavior: smooth; }
+
+    /* Ẩn nút toggle sidebar và icon text bị rò */
+    [data-testid="collapsedControl"],
+    [data-testid="stSidebarCollapseButton"],
+    [data-testid="stSidebarHeader"],
+    [data-testid="stHeader"],
+    button[kind="header"],
+    header,
+    .stAppHeader {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    /* Mượt chuyển trang, không bị nhảy */
+    .stMainBlockContainer {
+        animation: fadeIn 0.3s ease-in-out;
+        padding-top: 2.5rem !important; /* Cân bằng khoảng trống bên main */
+    }
+    
+    /* Gắn Header Sidebar lên trên cùng */
+    .custom-sidebar-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 300px;
+        background: #0E1117;
+        padding: 32px 0 20px 0;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        z-index: 99999;
+    }
+    [data-testid="stSidebarNav"] {
+        padding-top: 160px !important; /* Dành chỗ cho custom header rộng hơn */
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
     [data-testid="stSidebar"] {
         background: linear-gradient(180deg, #0E1117 0%, #1A1F2E 100%);
         border-right: 1px solid rgba(255,255,255,0.05);
+        min-width: 280px !important;
+        max-width: 320px !important;
+        width: 300px !important;
+        transform: none !important;
+    }
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
+    section[data-testid="stSidebar"] > div {
+        width: 300px !important;
     }
     [data-testid="stSidebar"] .stMarkdown h1,
     [data-testid="stSidebar"] .stMarkdown h2,

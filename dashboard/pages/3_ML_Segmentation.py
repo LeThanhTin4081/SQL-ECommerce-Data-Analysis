@@ -24,6 +24,40 @@ st.set_page_config(
 inject_css()
 
 
+with st.sidebar:
+    st.markdown(f"""
+    <div class="custom-sidebar-header">
+        <div style="font-size:1.4rem;margin-bottom:4px;">🧠</div>
+        <div style="
+            font-size:1.1rem;font-weight:700;
+            background:linear-gradient(135deg, {COLORS['primary']}, {COLORS['accent']});
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        ">ML Segmentation</div>
+        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:2px;">Customer Clustering</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+    <div style="
+        background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
+        border: 1px solid rgba(102,126,234,0.2);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 12px;
+    ">
+        <div style="font-size:0.8rem;color:{COLORS['muted']};margin-bottom:8px;">💡 Lưu ý</div>
+        <div style="font-size:0.85rem;color:{COLORS['text']};line-height:1.5;">
+            Trang này hiển thị kết quả phân cụm Machine Learning (K-Means) đã được huấn luyện trên <b>toàn bộ tập dữ liệu</b>.
+        </div>
+        <div style="font-size:0.85rem;color:{COLORS['text']};line-height:1.5;margin-top:8px;">
+            Bộ lọc thời gian <b>không</b> áp dụng tại đây để đảm bảo tính toàn vẹn của Model.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 # Dữ liệu kết quả K-Means đã huấn luyện từ notebook
 CLUSTER_INFO = {
     0: {

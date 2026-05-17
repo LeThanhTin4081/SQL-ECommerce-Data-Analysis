@@ -17,6 +17,7 @@ from utils.styles import inject_css, kpi_card, section_header, COLORS, CHART_COL
 from utils.charts import (
     gender_donut,
     device_donut,
+    login_donut,
     payment_donut,
     payment_bar,
     shipping_cost_bar,
@@ -38,8 +39,19 @@ df_customers = load_customers()
 
 # Sidebar: bộ lọc dữ liệu
 with st.sidebar:
-    st.markdown("## 👤 Customers & Ops")
-    st.markdown("---")
+    st.markdown(f"""
+    <div class="custom-sidebar-header">
+        <div style="font-size:1.4rem;margin-bottom:4px;">👤</div>
+        <div style="
+            font-size:1.1rem;font-weight:700;
+            background:linear-gradient(135deg, {COLORS['primary']}, {COLORS['accent']});
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        ">Customers & Ops</div>
+        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:2px;">Nhân khẩu học & vận hành</div>
+    </div>
+    """, unsafe_allow_html=True)
 
     gender_filter = st.radio(
         "Giới tính",
@@ -78,7 +90,7 @@ st.markdown(f"""
         margin-bottom: 2px;
     ">👤 Customers & Operations</h2>
     <p style="color:{COLORS['muted']};font-size:0.9rem;margin:0;">
-        Phân tích nhân khẩu học, khách hàng VIP, vận hành và thanh toán
+        Phân tích {len(df_filtered):,} đơn hàng | {df_filtered['Customer_Id'].nunique():,} khách hàng
     </p>
 </div>
 """, unsafe_allow_html=True)
@@ -134,35 +146,7 @@ with col_device:
     st.plotly_chart(device_donut(df_filtered, height=350), width="stretch")
 
 with col_login:
-    # Login type bar chart (tạo trực tiếp vì chỉ dùng 1 lần)
-    login_data = df_filtered["Customer_Login_type"].value_counts().reset_index()
-    login_data.columns = ["Login_Type", "Count"]
-
-    fig_login = go.Figure(go.Bar(
-        x=login_data["Count"],
-        y=login_data["Login_Type"],
-        orientation="h",
-        marker=dict(
-            color=[COLORS["primary"], COLORS["accent"], COLORS["warning"]][:len(login_data)],
-            cornerradius=6,
-        ),
-        text=[f"{v:,}" for v in login_data["Count"]],
-        textposition="outside",
-        hovertemplate="<b>%{y}</b><br>Số đơn: %{x:,}<extra></extra>",
-    ))
-
-    fig_login.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, sans-serif", color=COLORS["text"], size=13),
-        title=dict(text="Loại Đăng nhập", font=dict(size=16, color=COLORS["text"]), x=0.02, y=0.97),
-        height=350,
-        margin=dict(l=100, r=20, t=40, b=20),
-        xaxis=dict(gridcolor="rgba(255,255,255,0.05)", showgrid=False),
-        yaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
-    )
-
-    st.plotly_chart(fig_login, width="stretch")
+    st.plotly_chart(login_donut(df_filtered, height=350), width="stretch")
 
 
 # Bảng Top 10 khách hàng VIP (Query #9)

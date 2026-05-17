@@ -29,23 +29,18 @@ inject_css()
 df = load_orders()
 
 
-# Sidebar: thông tin dự án và bộ lọc
 with st.sidebar:
-    st.markdown("## 🛒 E-Commerce")
-    st.markdown("### Báo cáo 2018")
-    st.markdown("---")
-
     st.markdown(f"""
-    <div style="
-        background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
-        border: 1px solid rgba(102,126,234,0.2);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-    ">
-        <div style="font-size:0.8rem;color:{COLORS['muted']};margin-bottom:8px;">📅 Giai đoạn dữ liệu</div>
-        <div style="font-size:1rem;color:{COLORS['text']};font-weight:600;">Tháng 1 – Tháng 12, 2018</div>
-        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:4px;">51,290 đơn hàng</div>
+    <div class="custom-sidebar-header">
+        <div style="font-size:1.4rem;margin-bottom:4px;">🛒</div>
+        <div style="
+            font-size:1.1rem;font-weight:700;
+            background:linear-gradient(135deg, {COLORS['primary']}, {COLORS['accent']});
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        ">E-Commerce Dashboard</div>
+        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:2px;">Annual Report 2018</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -56,24 +51,30 @@ with st.sidebar:
         format="Tháng %d",
     )
 
-    st.markdown("---")
-    st.markdown(
-        f'<div style="font-size:0.7rem;color:{COLORS["muted"]};text-align:center;">'
-        'Built with ❤️ Streamlit + Plotly<br>Data: Kaggle E-Commerce 2018'
-        '</div>',
-        unsafe_allow_html=True,
-    )
-
 # Lọc dữ liệu theo khoảng tháng được chọn
 df_filtered = df[(df["Month"] >= month_range[0]) & (df["Month"] <= month_range[1])]
+filtered_count = len(df_filtered)
+
+# Hiển thị thông tin giai đoạn dữ liệu (cập nhật theo filter)
+with st.sidebar:
+    st.markdown(f"""
+    <div style="
+        background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15));
+        border: 1px solid rgba(102,126,234,0.2);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 12px;
+    ">
+        <div style="font-size:0.8rem;color:{COLORS['muted']};margin-bottom:8px;">📅 Giai đoạn dữ liệu</div>
+        <div style="font-size:1rem;color:{COLORS['text']};font-weight:600;">Tháng {month_range[0]} – Tháng {month_range[1]}, 2018</div>
+        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:4px;">{filtered_count:,} đơn hàng</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # Header trang
 st.markdown(f"""
-<div style="
-    text-align: center;
-    padding: 20px 0 10px 0;
-">
+<div style="text-align: center; padding: 20px 0 10px 0;">
     <h1 style="
         font-size: 2.2rem;
         font-weight: 800;
@@ -84,7 +85,8 @@ st.markdown(f"""
         margin-bottom: 4px;
     ">🛒 E-Commerce Annual Report 2018</h1>
     <p style="color:{COLORS['muted']};font-size:1rem;margin:0;">
-        Báo cáo Tổng hợp Kinh doanh — Phân tích 51,290 đơn hàng toàn năm 2018
+        Báo cáo Tổng hợp Kinh doanh — Phân tích {filtered_count:,} đơn hàng
+        (Tháng {month_range[0]} – Tháng {month_range[1]}, 2018)
     </p>
 </div>
 """, unsafe_allow_html=True)

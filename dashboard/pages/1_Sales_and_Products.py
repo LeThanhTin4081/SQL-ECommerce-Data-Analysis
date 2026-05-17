@@ -17,7 +17,6 @@ from utils.charts import (
     running_total_area,
     daily_sales_heatmap,
     top_products_bar,
-    category_treemap,
     quarterly_comparison_bar,
 )
 
@@ -35,8 +34,19 @@ df = load_orders()
 
 # Sidebar: bộ lọc dữ liệu
 with st.sidebar:
-    st.markdown("## 📊 Sales & Products")
-    st.markdown("---")
+    st.markdown(f"""
+    <div class="custom-sidebar-header">
+        <div style="font-size:1.4rem;margin-bottom:4px;">📊</div>
+        <div style="
+            font-size:1.1rem;font-weight:700;
+            background:linear-gradient(135deg, {COLORS['primary']}, {COLORS['accent']});
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            background-clip:text;
+        ">Sales & Products</div>
+        <div style="font-size:0.75rem;color:{COLORS['muted']};margin-top:2px;">Phân tích doanh thu & sản phẩm</div>
+    </div>
+    """, unsafe_allow_html=True)
 
     month_range = st.slider(
         "Khoảng tháng",
@@ -68,9 +78,7 @@ st.markdown(f"""
         background-clip: text;
         margin-bottom: 2px;
     ">📊 Sales & Products Analysis</h2>
-    <p style="color:{COLORS['muted']};font-size:0.9rem;margin:0;">
-        Phân tích doanh thu theo tháng, xếp hạng sản phẩm và so sánh quý
-    </p>
+    <p style="color:{COLORS['muted']};font-size:0.9rem;margin:0;">Phân tích {len(df_filtered):,} đơn hàng (Tháng {month_range[0]} – {month_range[1]}, 2018) {f'| Danh mục: {selected_cat}' if selected_cat != 'Tất cả' else ''}</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -129,16 +137,9 @@ with col_right:
     st.plotly_chart(daily_sales_heatmap(df_filtered, height=380), width="stretch")
 
 
-# Bảng xếp hạng sản phẩm (Query #3, #7) và Treemap danh mục (Query #10)
-st.markdown(section_header("xếp hạng sản phẩm & cấu trúc danh mục"), unsafe_allow_html=True)
-
-col_rank, col_tree = st.columns([1, 1])
-
-with col_rank:
-    st.plotly_chart(top_products_bar(df_filtered, top_n=top_n, height=480), width="stretch")
-
-with col_tree:
-    st.plotly_chart(category_treemap(df_filtered, height=480), width="stretch")
+# Bảng xếp hạng sản phẩm (Query #3, #7)
+st.markdown(section_header("xếp hạng sản phẩm"), unsafe_allow_html=True)
+st.plotly_chart(top_products_bar(df_filtered, top_n=top_n, height=480), width="stretch")
 
 
 # Bảng dữ liệu chi tiết Top N sản phẩm kèm Rank

@@ -62,6 +62,16 @@ def monthly_trend_area(df: pd.DataFrame, height: int = 400) -> go.Figure:
     ))
 
     _apply_layout(fig, "Doanh thu & Lợi nhuận theo Tháng", height)
+    fig.update_layout(
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+        ),
+        margin=dict(l=20, r=20, t=60, b=20),
+    )
     fig.update_xaxes(title="", tickangle=-45)
     fig.update_yaxes(title="USD ($)")
 
@@ -133,15 +143,17 @@ def top_products_bar(df: pd.DataFrame, top_n: int = 10, height: int = 400) -> go
             cornerradius=6,
         ),
         text=[f"${v:,.0f}" for v in top["Sales"]],
-        textposition="outside",
-        textfont=dict(color=COLORS["text"], size=11),
+        textposition="inside",
+        insidetextanchor="end",
+        textfont=dict(color="#FFFFFF", size=12, family="Inter, sans-serif"),
         hovertemplate="<b>%{y}</b><br>Doanh thu: $%{x:,.0f}<extra></extra>",
     ))
 
     _apply_layout(fig, f"Top {top_n} Sản phẩm Bán chạy", height)
+    fig.update_layout(title_x=0.45)
     fig.update_xaxes(title="Doanh thu (USD)", showgrid=False)
     fig.update_yaxes(title="")
-    fig.update_layout(margin=dict(l=140))
+    fig.update_layout(margin=dict(l=140, r=20))
 
     return fig
 
@@ -190,6 +202,14 @@ def monthly_bar_line_combo(df: pd.DataFrame, height: int = 400) -> go.Figure:
             gridcolor="rgba(255,255,255,0.03)",
         ),
         barmode="group",
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+        ),
+        margin=dict(l=20, r=60, t=60, b=20),
     )
     fig.update_xaxes(title="", tickangle=-45)
 
@@ -209,18 +229,28 @@ def quarterly_comparison_bar(df: pd.DataFrame, height: int = 380) -> go.Figure:
     fig.add_trace(go.Bar(
         x=quarterly["Quarter_Label"], y=quarterly["Sales"],
         name="Doanh thu", marker_color=COLORS["primary"],
-        text=[f"${v/1000:.0f}K" for v in quarterly["Sales"]],
+        text=[f"${v:,.0f}" for v in quarterly["Sales"]],
         textposition="outside",
     ))
     fig.add_trace(go.Bar(
         x=quarterly["Quarter_Label"], y=quarterly["Profit"],
         name="Lợi nhuận", marker_color=COLORS["success"],
-        text=[f"${v/1000:.0f}K" for v in quarterly["Profit"]],
+        text=[f"${v:,.0f}" for v in quarterly["Profit"]],
         textposition="outside",
     ))
 
     _apply_layout(fig, "So sánh theo Quý", height)
-    fig.update_layout(barmode="group")
+    fig.update_layout(
+        barmode="group",
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+        ),
+        margin=dict(l=20, r=20, t=60, b=20),
+    )
     fig.update_xaxes(title="")
     fig.update_yaxes(title="USD ($)")
 
@@ -282,14 +312,16 @@ def payment_bar(df: pd.DataFrame, height: int = 380) -> go.Figure:
             cornerradius=6,
         ),
         text=[f"${v:,.0f}" for v in payment["Revenue"]],
-        textposition="outside",
+        textposition="inside",
+        insidetextanchor="end",
+        textfont=dict(color="#FFFFFF", size=12, family="Inter, sans-serif"),
         hovertemplate="<b>%{y}</b><br>Doanh thu: $%{x:,.0f}<extra></extra>",
     ))
 
     _apply_layout(fig, "Doanh thu theo Phương thức Thanh toán", height)
     fig.update_xaxes(title="Doanh thu (USD)")
     fig.update_yaxes(title="")
-    fig.update_layout(margin=dict(l=120))
+    fig.update_layout(margin=dict(l=120, r=20))
 
     return fig
 
@@ -310,8 +342,9 @@ def category_donut(df: pd.DataFrame, height: int = 400) -> go.Figure:
         values=cat["Sales"],
         hole=0.55,
         marker=dict(colors=CHART_COLORS[:len(cat)]),
-        textinfo="label+percent",
-        textfont=dict(size=11, color=COLORS["text"]),
+        texttemplate="%{percent:.1%}",
+        textposition="outside",
+        textfont=dict(size=12, color=COLORS["text"]),
         hovertemplate="<b>%{label}</b><br>$%{value:,.0f}<br>%{percent}<extra></extra>",
     ))
 
@@ -322,7 +355,8 @@ def category_donut(df: pd.DataFrame, height: int = 400) -> go.Figure:
             x=0.5, y=0.5,
             font=dict(size=14, color=COLORS["muted"]),
             showarrow=False,
-        )]
+        )],
+        margin=dict(l=60, r=60, t=40, b=20)
     )
 
     return fig
@@ -338,11 +372,16 @@ def gender_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
         values=gender["Count"],
         hole=0.55,
         marker=dict(colors=[COLORS["primary"], COLORS["danger"]]),
-        textinfo="label+percent",
+        texttemplate="%{percent:.1%}",
+        textposition="outside",
         textfont=dict(size=12, color=COLORS["text"]),
     ))
 
     _apply_layout(fig, "Phân bổ Giới tính", height)
+    fig.update_layout(
+        margin=dict(l=40, r=40, t=60, b=80),
+        legend=dict(orientation="h", yanchor="top", y=-0.15, xanchor="center", x=0.5)
+    )
     return fig
 
 
@@ -356,11 +395,39 @@ def device_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
         values=device["Count"],
         hole=0.55,
         marker=dict(colors=[COLORS["accent"], COLORS["warning"]]),
-        textinfo="label+percent",
+        texttemplate="%{percent:.1%}",
+        textposition="outside",
         textfont=dict(size=12, color=COLORS["text"]),
     ))
 
     _apply_layout(fig, "Phân bổ Thiết bị", height)
+    fig.update_layout(
+        margin=dict(l=40, r=40, t=60, b=80),
+        legend=dict(orientation="h", yanchor="top", y=-0.15, xanchor="center", x=0.5)
+    )
+    return fig
+
+
+def login_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
+    """Donut chart hiển thị phân bổ đơn hàng theo loại đăng nhập."""
+    login = df["Customer_Login_type"].value_counts().reset_index()
+    login.columns = ["Login_Type", "Count"]
+
+    fig = go.Figure(go.Pie(
+        labels=login["Login_Type"],
+        values=login["Count"],
+        hole=0.55,
+        marker=dict(colors=[COLORS["primary"], COLORS["accent"], COLORS["warning"], COLORS["danger"]][:len(login)]),
+        texttemplate="%{percent:.1%}",
+        textposition="outside",
+        textfont=dict(size=12, color=COLORS["text"]),
+    ))
+
+    _apply_layout(fig, "Loại Đăng nhập", height)
+    fig.update_layout(
+        margin=dict(l=40, r=40, t=60, b=80),
+        legend=dict(orientation="h", yanchor="top", y=-0.15, xanchor="center", x=0.5)
+    )
     return fig
 
 
@@ -374,11 +441,13 @@ def payment_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
         values=pay["Count"],
         hole=0.55,
         marker=dict(colors=CHART_COLORS[:len(pay)]),
-        textinfo="label+percent",
+        texttemplate="%{percent:.1%}",
+        textposition="outside",
         textfont=dict(size=12, color=COLORS["text"]),
     ))
 
     _apply_layout(fig, "Phương thức Thanh toán", height)
+    fig.update_layout(margin=dict(l=60, r=60, t=40, b=20))
     return fig
 
 
