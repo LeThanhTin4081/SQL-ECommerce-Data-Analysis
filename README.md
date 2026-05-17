@@ -1,129 +1,160 @@
-# **Phân tích Quy trình Xử lý Đơn hàng E-Commerce (E-Commerce Order Fulfillment Analysis)**  
+# 🛒 Phân tích Quy trình Xử lý Đơn hàng E-Commerce (Order Fulfillment Analysis)
 
-## 📖 **Tổng quan Dự án (Project Overview)**  
-Dự án này phân tích **quy trình xử lý đơn hàng (order fulfillment process)** của một doanh nghiệp thương mại điện tử (e-commerce), bao gồm **xu hướng bán hàng (sales trends), hiệu suất sản phẩm (product performance), phân khúc khách hàng (customer segmentation), tối ưu hóa chi phí vận chuyển (shipping cost optimization), và phân tích phương thức thanh toán (payment method analysis)**.  
+## 🔎 1. Tổng quan dự án
 
-Sử dụng **Các kỹ thuật SQL nâng cao (Advanced SQL Techniques)** kết hợp tư duy thiết kế **Data Pipeline (ELT)**, dự án trích xuất những thông tin chuyên sâu để giúp doanh nghiệp **cải thiện logistics, tăng doanh số, và nâng cao mức độ hài lòng của khách hàng**.  
+Dự án thực hiện quy trình kỹ thuật dữ liệu và phân tích kinh doanh toàn diện (End-to-End) cho một doanh nghiệp thương mại điện tử, dựa trên tập dữ liệu lịch sử giao dịch năm 2018. Quy trình được triển khai qua các giai đoạn chính:
 
----
+- **Khai thác & Nạp dữ liệu (Extract & Load):** Nhập 51,290 bản ghi giao dịch thô vào SQL Server thông qua kỹ thuật `BULK INSERT` với bảng Staging (`RawOrders`).
+- **Chuẩn hóa dữ liệu (Data Normalization):** Chuyển đổi dữ liệu phẳng (Flat Data) thành mô hình quan hệ đạt chuẩn 3NF gồm 1 Fact Table (`Orders`) và 3 Dimension Tables (`Customers`, `Products`, `Categories`).
+- **Phân tích nâng cao (Advanced Analytics):** Sử dụng các kỹ thuật T-SQL chuyên sâu (Window Functions, Recursive CTEs, Ranking Functions) để khai thác insights về tài chính, hành vi khách hàng và hiệu suất vận hành.
 
-## 🎯 **Mục tiêu (Objectives)**  
-✔ **Tối ưu hóa hiệu suất xử lý đơn hàng** – Theo dõi sự chậm trễ và cải thiện thời gian hoàn thành đơn hàng.  
-✔ **Xác định các sản phẩm bán chạy nhất** – Hiểu rõ những sản phẩm nào tạo ra doanh thu cao nhất.  
-✔ **Phân khúc khách hàng giá trị cao** – Phân tích hành vi chi tiêu và mức độ tương tác của khách hàng.  
-✔ **Giảm chi phí vận chuyển** – Đánh giá sự biến động chi phí dựa trên mức độ ưu tiên của đơn hàng (order priority).  
-✔ **Xác định phương thức thanh toán ưa thích** – Xác định sở thích thanh toán của khách hàng để có chiến lược tài chính tốt hơn.  
+| Giai đoạn   | 1. Nạp dữ liệu (E-L)      | 2. Chuẩn hóa 3NF (T) | 3. Phân tích nâng cao  |
+| ----------- | ------------------------- | -------------------- | ---------------------- |
+| **Công cụ** | SQL Server, `BULK INSERT` | T-SQL, Data Modeling | CTEs, Window Functions |
 
----
+Bộ dữ liệu gốc gồm **51,290 đơn hàng** giao dịch trong toàn bộ năm 2018 (Tháng 1 – Tháng 12), tạo ra tổng doanh thu **7.8 triệu USD** với biên lợi nhuận **46.2%**.
 
-## 📂 **Tổng quan Dữ liệu (Dataset Overview)**  
-- **Nguồn dữ liệu (Source)**: Hồ sơ giao dịch E-Commerce với **51.290 dòng** và **16 cột**. ([E-commerce Dataset trên Kaggle](https://www.kaggle.com/datasets/mervemenekse/ecommerce-dataset))  
-- **Tiền xử lý dữ liệu (Data Transformation)**: Dữ liệu thô đã được **chuẩn hóa (normalized) thành 4 bảng** để truy vấn hiệu quả hơn:
-  - `Orders` – Chi tiết đơn hàng, bao gồm doanh số (sales), lợi nhuận (profit), và chi phí vận chuyển (shipping costs).  
-  - `Customers` – Thông tin nhân khẩu học của khách hàng như giới tính (gender), loại đăng nhập (login type), và thiết bị (device).  
-  - `Products` – Danh sách tất cả các sản phẩm và danh mục của chúng.  
-  - `Categories` – Phân loại rộng hơn của các loại sản phẩm.  
+> 💡 **Lưu ý dành cho Nhà tuyển dụng / Technical Reviewer:**
+> File `README.md` này chỉ đóng vai trò là **Báo cáo Tổng quan (Executive Summary)** trình bày các phát hiện chính và luồng dự án.
+> Chi tiết về Data Dictionary, Kiến trúc Pipeline và 10 kết quả truy vấn phân tích chuyên sâu đã được ghi chú rõ ràng trong từng thư mục như bảng sau:
 
----
-
-## 🚀 **Các kỹ thuật SQL Nâng cao được sử dụng (Advanced SQL Techniques Used)**  
-Dự án này kết hợp **Các kỹ thuật SQL Nâng cao** để cải thiện hiệu suất truy vấn (query performance), đơn giản hóa quá trình phân tích và tạo ra những thông tin sâu sắc:  
-
-### **1️⃣ Window Functions**  
-   - Được sử dụng để **xếp hạng các sản phẩm bán chạy (rank top-selling products)** và **tính toán doanh số lũy kế theo thời gian (cumulative sales)**.  
-   - Giúp **hiểu rõ xu hướng nhu cầu sản phẩm một cách linh hoạt**.  
-
-### **2️⃣ Common Table Expressions (CTEs)**  
-   - Đơn giản hóa **phân tích phân khúc khách hàng** bằng cách tổ chức các câu truy vấn phức tạp (complex queries).  
-   - Tăng tính dễ đọc và duy trì **việc thực thi truy vấn theo mô-đun (modular query execution)**.  
-
-### **3️⃣ Ranking Functions (RANK() OVER)**  
-   - Gán thứ hạng cho các sản phẩm dựa trên tổng doanh số.  
-   - Hữu ích cho việc **xác định các mặt hàng có hiệu suất tốt nhất một cách hiệu quả**.  
-
-### **4️⃣ Partitioning & Indexing (Phân vùng & Đánh chỉ mục để Tối ưu hiệu suất)**  
-   - Được sử dụng để **tối ưu hóa truy vấn (query optimization)**, đặc biệt là với các tập dữ liệu lớn.  
-   - Đảm bảo **trích xuất thông tin nhanh hơn** từ dữ liệu đơn hàng và khách hàng.  
+| Phân khu               | Mô tả                                                           | Liên kết                                 |
+| ---------------------- | --------------------------------------------------------------- | ---------------------------------------- |
+| **Dữ liệu (Data)**     | Cấu trúc dữ liệu raw/cleaned, Data Dictionary chi tiết          | [`data/`](./data/)                       |
+| **Kiến trúc Pipeline** | Luồng xử lý ELT, mô hình cơ sở dữ liệu 3NF                      | [`DATA_PIPELINE.md`](./DATA_PIPELINE.md) |
+| **Báo cáo Analytics**  | 10 truy vấn T-SQL phức tạp kèm hình ảnh kết quả và Key Insights | [`sql/`](./sql/)                         |
 
 ---
 
-## 📊 **Thông tin chi tiết & Phát hiện Kinh doanh (Business Insights & Findings)**  
+## 🔆 2. Kỹ năng dữ liệu được thể hiện
 
-### **📌 Phân tích Doanh số & Doanh thu (Sales & Revenue Analysis)**  
-- Doanh nghiệp đã tạo ra **7,8 triệu USD tổng doanh số**, với **biên lợi nhuận 3,6 triệu USD**.  
-- **Doanh số đạt đỉnh vào tháng 5 và tháng 11**, cho thấy những **xu hướng nhu cầu theo mùa vụ** rõ rệt.  
-
-### **📌 Các sản phẩm bán chạy nhất (Top-Selling Products)**  
-- Các danh mục bán chạy nhất là **Thời trang (Fashion) và Giày dép (Footwear)**, với **Áo phông (T-Shirts), Đồng hồ (Watches), và Giày chạy bộ (Running Shoes)** dẫn đầu doanh số.  
-- **Bán kèm (Bundling) các mặt hàng bán chậm với các sản phẩm có hiệu suất cao** có thể giúp tăng doanh số tổng thể.  
-
-### **📌 Phân khúc & Giữ chân Khách hàng (Customer Segmentation & Retention)**  
-- **Những khách hàng chi tiêu nhiều nhất chủ yếu là nam giới**, làm nổi bật cơ hội cho các **chương trình khuyến mãi có mục tiêu (targeted promotions)**.  
-- Một **chương trình khách hàng thân thiết VIP** có thể nâng cao tỷ lệ giữ chân khách hàng và **tăng số lần mua lại (repeat purchases)**.  
-
-### **📌 Tối ưu hóa Xử lý đơn hàng & Chi phí Vận chuyển (Order Fulfillment & Shipping Cost Optimization)**  
-- **Các đơn hàng có mức ưu tiên cao (High-priority orders) có chi phí vận chuyển cao hơn đáng kể**.  
-- Khuyến khích **đặt hàng số lượng lớn (bulk orders) và các tùy chọn giao hàng tiêu chuẩn (standard delivery)** có thể giúp giảm chi phí logistics.  
-
-### **📌 Sở thích về Phương thức Thanh toán (Payment Method Preferences)**  
-- **Thẻ tín dụng (Credit cards) chiếm ưu thế trong các giao dịch (74% tổng doanh thu)**, trong khi tỷ lệ áp dụng **ví điện tử (e-wallet) vẫn ở mức thấp**.  
-- **Đẩy mạnh các ưu đãi thanh toán kỹ thuật số** có thể làm tăng tỷ lệ chuyển đổi khi thanh toán (checkout conversion rates).  
+| Kỹ năng                   | Công cụ / Kỹ thuật                                                              |
+| ------------------------- | ------------------------------------------------------------------------------- |
+| **Data Engineering**      | SQL Server, ELT Pipeline, `BULK INSERT`, Staging Tables                         |
+| **Data Modeling**         | Database Normalization (3NF), Fact & Dimension Tables, Primary/Foreign Keys     |
+| **Advanced SQL (T-SQL)**  | Window Functions (`RANK`, `SUM OVER`), Recursive CTEs, Common Table Expressions |
+| **Business Intelligence** | Phân tích tỷ suất lợi nhuận, nhận diện nút thắt vận hành, Customer Profiling    |
 
 ---
 
-## 💡 **Đề xuất Kinh doanh (Business Recommendations)**  
-📌 **Tối ưu hóa Hiệu suất Xử lý Đơn hàng**  
-   - Triển khai **tự động hóa trong kho hàng** để giảm thời gian xử lý trung bình (hiện tại là 5,25 ngày).  
-   - Giới thiệu **tính năng theo dõi đơn hàng theo thời gian thực (real-time order tracking)** để nâng cao tính minh bạch và lòng tin của khách hàng.  
+## 🎯 3. Mục tiêu dự án (Objectives)
 
-📌 **Tăng Doanh thu với Các chương trình Khuyến mãi có mục tiêu**  
-   - Tận dụng **xu hướng bán hàng theo mùa** bằng cách tung ra các đợt giảm giá độc quyền vào các tháng cao điểm.  
-   - Quảng cáo các **sản phẩm có thứ hạng cao (Áo phông, Đồng hồ, và Giày)**.  
-
-📌 **Cải thiện Chiến lược Giữ chân Khách hàng**  
-   - Tạo ra các **ưu đãi được cá nhân hóa cho khách hàng mua lại** dựa trên lịch sử mua sắm.  
-   - Triển khai **chương trình khách hàng thân thiết (loyalty program)** để khuyến khích chi tiêu lặp lại.  
-
-📌 **Giảm Chi phí Vận chuyển mà không ảnh hưởng đến Thời gian Giao hàng**  
-   - Cung cấp **giao hàng tiêu chuẩn miễn phí (free standard shipping) cho các đơn hàng lớn** để giảm chi phí logistics trên mỗi mặt hàng.  
-   - Tối ưu hóa **quan hệ đối tác với các hãng vận chuyển** để có mức giá vận chuyển ưu tiên được chiết khấu.  
-
-📌 **Nâng cao Tính linh hoạt khi Thanh toán & Trải nghiệm Thanh toán**  
-   - Khuyến khích **giao dịch bằng ví điện tử và thẻ ghi nợ** bằng cách đưa ra các ưu đãi hoàn tiền (cashback).  
-   - Giới thiệu các tùy chọn **Mua trước, Trả sau (Buy Now, Pay Later - BNPL)** để giảm tỷ lệ bỏ rơi giỏ hàng (cart abandonment).  
+- ✔ **Tối ưu hóa hiệu suất xử lý đơn hàng** – Theo dõi sự chậm trễ và cải thiện thời gian hoàn thành đơn hàng.
+- ✔ **Xác định các sản phẩm bán chạy nhất** – Hiểu rõ những sản phẩm nào tạo ra doanh thu cao nhất.
+- ✔ **Phân khúc khách hàng giá trị cao** – Phân tích hành vi chi tiêu và mức độ tương tác của khách hàng.
+- ✔ **Giảm chi phí vận chuyển** – Đánh giá sự biến động chi phí dựa trên mức độ ưu tiên của đơn hàng (order priority).
+- ✔ **Xác định phương thức thanh toán ưa thích** – Xác định sở thích thanh toán của khách hàng để có chiến lược tài chính tốt hơn.
 
 ---
 
-## 🔧 **Công nghệ sử dụng (Technologies Used)**  
-- **Database**: SQL Server  
-- **Query Language**: Advanced SQL (T-SQL)  
-- **Data Processing**: SQL Server / VS Code  
+## 📌 4. Quy trình thực hiện
+
+### 4.1. Extract & Load (Khai thác và Nạp Dữ liệu)
+
+Xây dựng kịch bản tự động khởi tạo cơ sở dữ liệu và nạp toàn bộ 51,290 bản ghi từ file `.csv` thô vào bảng tạm `RawOrders` (Staging Table) bằng lệnh `BULK INSERT`, áp dụng ép kiểu an toàn `VARCHAR(MAX)` để tránh mất mát dữ liệu.
+
+> 📁 **Chi tiết mã nguồn:** [`sql/01_setup_and_import.sql`](./sql/01_setup_and_import.sql)
+
+### 4.2. Data Normalization (Chuẩn hóa cấu trúc 3NF)
+
+Từ bảng Staging phẳng, dữ liệu được bóc tách và định tuyến vào mô hình quan hệ:
+
+- 3 bảng **Dimension**: `Customers`, `Products`, `Categories` (thiết lập cấu trúc đệ quy cha-con).
+- 1 bảng **Fact**: `Orders` (lưu trữ các metrics kinh doanh: Doanh thu, Lợi nhuận, Chi phí vận chuyển).
+  > 📁 **Xem sơ đồ Database Schema và chi tiết kỹ thuật tại:** [`DATA_PIPELINE.md`](./DATA_PIPELINE.md)
+
+### 4.3. Advanced Analytics (Phân tích Kinh doanh)
+
+Thực thi 10 kịch bản truy vấn phân tích đa chiều (Sales, Operations, Customer, Logistics) sử dụng các kỹ thuật T-SQL nâng cao:
+
+- **Window Functions:** Xếp hạng sản phẩm (`RANK() OVER`) và tính doanh thu lũy kế (`SUM() OVER`).
+- **Common Table Expressions (CTEs):** Tổ chức logic phân tích phức tạp thành các khối mã dễ đọc, dễ tái sử dụng.
+- **Recursive CTEs:** Truy xuất và vẽ cây phân cấp danh mục hàng hóa (Parent-Child).
+  > 📁 **Xem toàn bộ 10 Báo cáo Insights kèm hình ảnh kết quả tại:** [`sql/`](./sql/)
 
 ---
 
-## 📂 **Cấu trúc Thư mục (Repository Structure)**  
+## 📊 5. Thông tin chi tiết & Phát hiện Kinh doanh (Business Insights & Findings)
+
+### 📌 Phân tích Doanh số & Doanh thu (Sales & Revenue Analysis)
+
+- Doanh nghiệp đã tạo ra **7,8 triệu USD tổng doanh số**, với **biên lợi nhuận 3,6 triệu USD (46.2%)**.
+- **Doanh số đạt đỉnh vào tháng 5 và tháng 11**, cho thấy những **xu hướng nhu cầu theo mùa vụ** rõ rệt.
+
+### 📌 Các sản phẩm bán chạy nhất (Top-Selling Products)
+
+- Các danh mục bán chạy nhất là **Thời trang (Fashion) và Giày dép (Footwear)**, với **Áo phông (T-Shirts), Đồng hồ (Watches), và Giày chạy bộ (Running Shoes)** dẫn đầu doanh số.
+- **Bán kèm (Bundling) các mặt hàng bán chậm với các sản phẩm có hiệu suất cao** có thể giúp tăng doanh số tổng thể.
+
+### 📌 Phân khúc & Giữ chân Khách hàng (Customer Segmentation & Retention)
+
+- **Những khách hàng chi tiêu nhiều nhất chủ yếu là nam giới**, làm nổi bật cơ hội cho các **chương trình khuyến mãi có mục tiêu (targeted promotions)**.
+- Một **chương trình khách hàng thân thiết VIP** có thể nâng cao tỷ lệ giữ chân khách hàng và **tăng số lần mua lại (repeat purchases)**.
+
+### 📌 Tối ưu hóa Xử lý đơn hàng & Chi phí Vận chuyển (Order Fulfillment & Shipping Cost Optimization)
+
+- **Các đơn hàng có mức ưu tiên cao (High-priority orders) có chi phí vận chuyển cao hơn đáng kể**.
+- Khuyến khích **đặt hàng số lượng lớn (bulk orders) và các tùy chọn giao hàng tiêu chuẩn (standard delivery)** có thể giúp giảm chi phí logistics.
+
+### 📌 Sở thích về Phương thức Thanh toán (Payment Method Preferences)
+
+- **Thẻ tín dụng (Credit cards) chiếm ưu thế trong các giao dịch (74% tổng doanh thu)**, trong khi tỷ lệ áp dụng **ví điện tử (e-wallet) vẫn ở mức thấp**.
+- **Đẩy mạnh các ưu đãi thanh toán kỹ thuật số** có thể làm tăng tỷ lệ chuyển đổi khi thanh toán (checkout conversion rates).
+
+---
+
+## 💡 6. Đề xuất Kinh doanh (Business Recommendations)
+
+📌 **Tối ưu hóa Hiệu suất Xử lý Đơn hàng**
+
+- Triển khai **tự động hóa trong kho hàng** để giảm thời gian xử lý trung bình (hiện tại là 5,25 ngày).
+- Giới thiệu **tính năng theo dõi đơn hàng theo thời gian thực (real-time order tracking)** để nâng cao tính minh bạch và lòng tin của khách hàng.
+
+📌 **Tăng Doanh thu với Các chương trình Khuyến mãi có mục tiêu**
+
+- Tận dụng **xu hướng bán hàng theo mùa** bằng cách tung ra các đợt giảm giá độc quyền vào các tháng cao điểm.
+- Quảng cáo các **sản phẩm có thứ hạng cao (Áo phông, Đồng hồ, và Giày)**.
+
+📌 **Cải thiện Chiến lược Giữ chân Khách hàng**
+
+- Tạo ra các **ưu đãi được cá nhân hóa cho khách hàng mua lại** dựa trên lịch sử mua sắm.
+- Triển khai **chương trình khách hàng thân thiết (loyalty program)** để khuyến khích chi tiêu lặp lại.
+
+📌 **Giảm Chi phí Vận chuyển mà không ảnh hưởng đến Thời gian Giao hàng**
+
+- Cung cấp **giao hàng tiêu chuẩn miễn phí (free standard shipping) cho các đơn hàng lớn** để giảm chi phí logistics trên mỗi mặt hàng.
+- Tối ưu hóa **quan hệ đối tác với các hãng vận chuyển** để có mức giá vận chuyển ưu tiên được chiết khấu.
+
+📌 **Nâng cao Tính linh hoạt khi Thanh toán & Trải nghiệm Thanh toán**
+
+- Khuyến khích **giao dịch bằng ví điện tử và thẻ ghi nợ** bằng cách đưa ra các ưu đãi hoàn tiền (cashback).
+- Giới thiệu các tùy chọn **Mua trước, Trả sau (Buy Now, Pay Later - BNPL)** để giảm tỷ lệ bỏ rơi giỏ hàng (cart abandonment).
+
+---
+
+## 🔧 7. Công nghệ sử dụng (Technologies Used)
+
+- **Database**: SQL Server
+- **Query Language**: Advanced SQL (T-SQL)
+- **Data Processing**: SQL Server / VS Code
+
+---
+
+## 🔗 8. Cấu trúc thư mục (Repository Structure)
+
 ```text
-📁 data                 
- ┣ 📁 raw               <-- File dataset thô ban đầu (E-commerce Dataset.csv)
- ┗ 📁 cleaned           <-- Các file dữ liệu đã được làm sạch và chuẩn hóa (nếu có)
-📁 sql                  
- ┣ 📜 01_setup_and_import.sql   <-- Script nạp dữ liệu thô (ETL)
- ┣ 📜 02_data_normalization.sql <-- Script chuẩn hóa cấu trúc 3NF
- ┗ 📜 03_advanced_analytics.sql <-- Script phân tích Insight kinh doanh
-📜 DATA_PIPELINE.md     <-- Tài liệu giải thích kiến trúc Data Pipeline
-📜 README.md            <-- Tài liệu tổng quan dự án
+ECommerceAnalysis/
+├── assets/                         # Hình ảnh Database Schema, Kết quả truy vấn
+├── data/                           # Dữ liệu raw/cleaned và Data Dictionary
+│   ├── raw/
+│   ├── cleaned/
+│   └── README.md
+├── sql/                            # Các scripts T-SQL và Báo cáo Analytics
+│   ├── 01_setup_and_import.sql
+│   ├── 02_data_normalization.sql
+│   ├── 03_advanced_analytics.sql
+│   └── README.md
+├── DATA_PIPELINE.md                # Kiến trúc ELT Pipeline
+├── ML_ROADMAP.md                   # Định hướng Machine Learning (Phase 2)
+└── README.md                       # Báo cáo tổng quan dự án (File hiện tại)
 ```
-
----
-
-## 🔮 **Giai đoạn 2: Định hướng Tích hợp Machine Learning (Upcoming Phase)**  
-Sau khi hoàn thiện nền tảng Data Warehouse và Data Model bằng SQL Server, dự án sẽ được mở rộng sang Phân tích Dự đoán (Predictive Analytics) bằng Machine Learning:
-
-📌 **Customer Segmentation (Phân cụm Khách hàng):** 
-Áp dụng thuật toán **K-Means Clustering** trên dữ liệu RFM (Recency, Frequency, Monetary) được trích xuất từ SQL để tự động phân nhóm khách hàng (VIP, Bargain Hunters, Churn-risk).
-
-📌 **Profit/Sales Prediction (Dự đoán Lợi nhuận/Doanh thu):** 
-Sử dụng các mô hình học có giám sát như **XGBoost Regressor** hoặc **Random Forest** để dự báo biên lợi nhuận (Profit Margin) của các chiến dịch giảm giá và chính sách vận chuyển mới.
-
-📌 **End-to-end Data Dashboard:** 
-Kết nối trực tiếp Database SQL Server với **Power BI** để xây dựng báo cáo động (Interactive Dashboard), kết hợp cả dữ liệu lịch sử và kết quả dự báo từ AI.
