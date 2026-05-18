@@ -90,7 +90,7 @@ Thực thi 10 kịch bản truy vấn phân tích đa chiều (Sales, Operations
 
 ### 📌 Phân khúc & Giữ chân Khách hàng (Customer Segmentation & Retention)
 
-- **Những khách hàng chi tiêu nhiều nhất chủ yếu là nam giới**, làm nổi bật cơ hội cho các **chương trình khuyến mãi có mục tiêu (targeted promotions)**.
+- **Những khách hàng chi tiêu nhiều nhất chủ yếu là nam giới (chiếm 60% trong Top 10 khách hàng VIP và 79% trong phân khúc VIP Loyal)**, làm nổi bật cơ hội cho các **chương trình khuyến mãi có mục tiêu (targeted promotions)**.
 - Một **chương trình khách hàng thân thiết VIP** có thể nâng cao tỷ lệ giữ chân khách hàng và **tăng số lần mua lại (repeat purchases)**.
 
 ### 📌 Tối ưu hóa Xử lý đơn hàng & Chi phí Vận chuyển (Order Fulfillment & Shipping Cost Optimization)

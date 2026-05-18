@@ -74,7 +74,7 @@ Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi
 
 ![Kết quả truy vấn 9](../assets/query9.png)
 
-💡 **Key Insight:** Danh sách Top 10 khách hàng chi tiêu "đậm" nhất (dao động từ 890 đến gần 1,000 USD) bộc lộ một đặc điểm nhân khẩu học cực kỳ thú vị: **100% đều là Nam giới (Male)**. Phát hiện này là cơ sở vàng để đội ngũ Marketing tung ra các chiến dịch nhắm mục tiêu (Targeted Ads) bán chéo các sản phẩm cao cấp dành riêng cho phái mạnh.
+💡 **Key Insight:** Danh sách Top 10 khách hàng chi tiêu "đậm" nhất (dao động từ $890 đến $994) bộc lộ đặc điểm phân bổ giới tính thú vị: **60% là Nam giới** (6/10 khách hàng, bao gồm cả 3 vị trí dẫn đầu) và **40% là Nữ giới** (4/10 khách hàng). Phát hiện này cho thấy mặc dù phái mạnh dẫn đầu về chi tiêu cực hạn, nhóm khách hàng VIP vẫn có sự hiện diện đáng kể của nữ giới, đòi hỏi chiến lược Marketing cao cấp hướng đến cả hai giới nhưng có sự ưu tiên cá nhân hóa cho nam giới.
 
 ---
 
@@ -91,6 +91,6 @@ Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi
 Dựa trên 10 kết quả truy vấn phân tích dữ liệu ở trên, có thể đúc kết bức tranh toàn cảnh về doanh nghiệp trong năm tài chính 2018 như sau:
 
 1. **Hiệu quả Sinh lời & Sản phẩm cốt lõi:** Doanh nghiệp đang có tỷ suất lợi nhuận xuất sắc (46.2%). Đóng góp lớn nhất vào nguồn thu này là mảng **Thời trang (Fashion)**, tuân thủ đúng quy tắc Pareto (80/20). Cần dồn ngân sách Marketing vào mảng này và có chính sách thanh lý các mặt hàng tồn kho top dưới.
-2. **Chân dung Khách hàng VIP:** Tệp khách hàng chi tiêu mạnh tay nhất là **100% Nam giới**. Đây là "mỏ vàng" để triển khai các chiến dịch quảng cáo nhắm mục tiêu (Targeted Ads) và bán chéo (Cross-sell) chuyên biệt.
+2. **Chân dung Khách hàng VIP:** Tệp khách hàng chi tiêu mạnh tay nhất có sự đóng góp lớn từ **Nam giới (chiếm 60% trong Top 10)**. Đây là cơ sở để triển khai các chiến dịch quảng cáo nhắm mục tiêu (Targeted Ads) và ưu đãi VIP có chọn lọc.
 3. **Thanh toán & Mùa vụ:** Doanh số bùng nổ mạnh vào cuối năm (Tháng 11). Dòng tiền chủ yếu chảy qua mạch máu **Thẻ tín dụng (Credit Card)**.
 4. **Cảnh báo Vận hành (Bottleneck):** Dù kiểm soát rất tốt chi phí Logistics (hợp đồng Flat-rate), thời gian xử lý đơn (Aging = 5.25 ngày) lại đang là một **điểm nghẽn** nghiêm trọng. Doanh nghiệp cần khẩn trương tối ưu hóa quy trình kho bãi để bắt kịp tốc độ tăng trưởng doanh số.

@@ -2,7 +2,7 @@
 
 Sử dụng thuật toán **K-Means Clustering** trên mô hình **RFM** để tự động phân nhóm 38,995 khách hàng thành các phân khúc chiến lược, phục vụ tối ưu hóa chi phí Marketing.
 
-**Nguồn dữ liệu:** Kết nối trực tiếp vào Database `ECommerceDB` trên SQL Server (đã xây dựng ở Phase 1 — SQL Analytics).
+**Nguồn dữ liệu:** Kết nối trực tiếp vào Database `ECommerceDB` trên SQL Server
 
 ---
 
