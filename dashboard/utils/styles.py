@@ -241,6 +241,7 @@ def kpi_card(title: str, value: str, icon: str, color: str = "#667EEA", subtitle
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
+            white-space: nowrap;
         ">{title}</div>
         {subtitle_html}
     </div>

@@ -201,7 +201,10 @@ for i, (cluster_id, info) in enumerate(CLUSTER_INFO.items()):
             border-radius: 16px;
             padding: 24px;
             border-left: 4px solid {info['color']};
-            min-height: 280px;
+            border-left: 4px solid {info['color']};
+            height: 340px;
+            display: flex;
+            flex-direction: column;
         ">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
                 <span style="font-size:1.6rem;">{info['icon']}</span>
@@ -213,7 +216,7 @@ for i, (cluster_id, info) in enumerate(CLUSTER_INFO.items()):
             <div style="font-size:0.8rem;color:{COLORS['muted']};margin-bottom:16px;">
                 {info['count']:,} khách hàng
             </div>
-            <div style="font-size:0.82rem;color:{COLORS['muted']};line-height:1.6;margin-bottom:12px;">
+            <div style="font-size:0.82rem;color:{COLORS['muted']};line-height:1.6;margin-bottom:12px;flex-grow:1;">
                 {info['description']}
             </div>
             <div style="
@@ -231,34 +234,10 @@ for i, (cluster_id, info) in enumerate(CLUSTER_INFO.items()):
 st.markdown("")
 
 
-# Radar chart so sánh RFM và Donut phân bổ cluster
-st.markdown(section_header("so sánh rfm giữa 3 phân khúc"), unsafe_allow_html=True)
+# Donut phân bổ cluster và Bar chart so sánh Monetary
+st.markdown(section_header("phân bổ khách hàng & so sánh monetary, profit"), unsafe_allow_html=True)
 
-col_radar, col_donut = st.columns([3, 2])
-
-with col_radar:
-    # Chuẩn hóa giá trị RFM về thang 0-100 để radar chart dễ đọc
-    max_recency = max(info["recency"] for info in CLUSTER_INFO.values())
-    max_frequency = max(info["frequency"] for info in CLUSTER_INFO.values())
-    max_monetary = max(info["monetary"] for info in CLUSTER_INFO.values())
-    max_discount = max(info["avg_discount"] for info in CLUSTER_INFO.values())
-    max_profit = max(info["avg_profit"] for info in CLUSTER_INFO.values())
-
-    cluster_data = {}
-    for cluster_id, info in CLUSTER_INFO.items():
-        cluster_data[cluster_id] = {
-            "name": info["name"],
-            "color": info["color"],
-            "values": [
-                info["recency"] / max_recency * 100,
-                info["frequency"] / max_frequency * 100,
-                info["monetary"] / max_monetary * 100,
-                info["avg_discount"] / max_discount * 100,
-                info["avg_profit"] / max_profit * 100,
-            ],
-        }
-
-    st.plotly_chart(rfm_radar(cluster_data, height=450), width="stretch")
+col_donut, col_bar = st.columns([2, 3])
 
 with col_donut:
     # Donut chart phân bổ số lượng khách hàng theo cluster
@@ -267,7 +246,7 @@ with col_donut:
         values=[info["count"] for info in CLUSTER_INFO.values()],
         hole=0.55,
         marker=dict(colors=[info["color"] for info in CLUSTER_INFO.values()]),
-        textinfo="label+percent",
+        textinfo="percent",
         textfont=dict(size=12, color=COLORS["text"]),
         hovertemplate="<b>%{label}</b><br>%{value:,} khách<br>%{percent}<extra></extra>",
     ))
@@ -277,7 +256,7 @@ with col_donut:
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Inter, sans-serif", color=COLORS["text"], size=13),
         title=dict(text="Phân bổ Khách hàng", font=dict(size=16, color=COLORS["text"]), x=0.02, y=0.97),
-        height=450,
+        height=380,
         margin=dict(l=20, r=20, t=40, b=20),
         annotations=[dict(
             text=f"<b>{TOTAL_CUSTOMERS:,}</b>",
@@ -289,24 +268,7 @@ with col_donut:
 
     st.plotly_chart(fig_cluster_donut, width="stretch")
 
-
-# Bảng so sánh RFM metrics giữa 3 cluster
-st.markdown(section_header("bảng so sánh chi tiết rfm"), unsafe_allow_html=True)
-
-col_table, col_bar = st.columns([1, 1])
-
-with col_table:
-    import pandas as pd
-    rfm_table = pd.DataFrame({
-        "Chỉ số": ["Recency (ngày)", "Frequency (lần)", "Monetary (USD)", "Avg Discount", "Avg Profit (USD)"],
-        "Premium One-Time": [158, 1.13, 220, 0.29, 120],
-        "Low-Value": [159, 1.08, 102, 0.29, 29],
-        "VIP Loyal": [92, 2.24, 357, 0.32, 84],
-    })
-    st.dataframe(rfm_table, width="stretch", height=250, hide_index=True)
-
 with col_bar:
-    # Grouped bar chart so sánh Monetary giữa 3 cluster
     fig_compare = go.Figure()
     metrics = ["Monetary", "Avg Profit"]
     metric_values = {
@@ -331,12 +293,12 @@ with col_bar:
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(family="Inter, sans-serif", color=COLORS["text"], size=13),
         title=dict(text="So sánh Monetary & Profit", font=dict(size=16, color=COLORS["text"]), x=0.02, y=0.97),
-        height=300,
-        margin=dict(l=20, r=20, t=40, b=20),
+        height=380,
+        margin=dict(l=20, r=20, t=60, b=20),
         barmode="group",
         xaxis=dict(gridcolor="rgba(255,255,255,0.05)"),
         yaxis=dict(gridcolor="rgba(255,255,255,0.05)", title="USD ($)"),
-        legend=dict(bgcolor="rgba(0,0,0,0)"),
+        legend=dict(bgcolor="rgba(0,0,0,0)", orientation="h", yanchor="top", y=1.15, xanchor="right", x=1),
     )
 
     st.plotly_chart(fig_compare, width="stretch")
@@ -356,7 +318,7 @@ for i, (cluster_id, info) in enumerate(CLUSTER_INFO.items()):
             border-radius: 14px;
             padding: 20px;
             border-top: 3px solid {info['color']};
-            min-height: 160px;
+            height: 190px;
         ">
             <div style="font-size:0.95rem;font-weight:700;color:{info['color']};margin-bottom:10px;">
                 {info['icon']} {info['name']}

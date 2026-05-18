@@ -303,18 +303,26 @@ def payment_bar(df: pd.DataFrame, height: int = 380) -> go.Figure:
         .sort_values("Revenue", ascending=True)
     )
 
+    color_map = {
+        "credit_card": CHART_COLORS[0],
+        "money_order": CHART_COLORS[1],
+        "e_wallet": CHART_COLORS[2],
+        "debit_card": CHART_COLORS[3],
+        "not_defined": CHART_COLORS[4],
+    }
+    bar_colors = [color_map.get(m, CHART_COLORS[5]) for m in payment["Payment_Method"]]
+
     fig = go.Figure(go.Bar(
         x=payment["Revenue"],
         y=payment["Payment_Method"],
         orientation="h",
         marker=dict(
-            color=[COLORS["primary"], COLORS["accent"], COLORS["warning"], COLORS["success"]],
+            color=bar_colors,
             cornerradius=6,
         ),
         text=[f"${v:,.0f}" for v in payment["Revenue"]],
-        textposition="inside",
-        insidetextanchor="end",
-        textfont=dict(color="#FFFFFF", size=12, family="Inter, sans-serif"),
+        textposition="auto",
+        textfont=dict(size=12, family="Inter, sans-serif"),
         hovertemplate="<b>%{y}</b><br>Doanh thu: $%{x:,.0f}<extra></extra>",
     ))
 
@@ -413,14 +421,19 @@ def login_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
     login = df["Customer_Login_type"].value_counts().reset_index()
     login.columns = ["Login_Type", "Count"]
 
+    total = login["Count"].sum()
+    custom_text = [f"{v/total:.1%}" if (v/total) >= 0.01 else "" for v in login["Count"]]
+
     fig = go.Figure(go.Pie(
         labels=login["Login_Type"],
         values=login["Count"],
         hole=0.55,
         marker=dict(colors=[COLORS["primary"], COLORS["accent"], COLORS["warning"], COLORS["danger"]][:len(login)]),
-        texttemplate="%{percent:.1%}",
+        text=custom_text,
+        textinfo="text",
         textposition="outside",
         textfont=dict(size=12, color=COLORS["text"]),
+        hovertemplate="<b>%{label}</b><br>Số lượng: %{value:,}<br>Tỷ lệ: %{percent}<extra></extra>",
     ))
 
     _apply_layout(fig, "Loại Đăng nhập", height)
@@ -436,11 +449,20 @@ def payment_donut(df: pd.DataFrame, height: int = 350) -> go.Figure:
     pay = df["Payment_Method"].value_counts().reset_index()
     pay.columns = ["Method", "Count"]
 
+    color_map = {
+        "credit_card": CHART_COLORS[0],
+        "money_order": CHART_COLORS[1],
+        "e_wallet": CHART_COLORS[2],
+        "debit_card": CHART_COLORS[3],
+        "not_defined": CHART_COLORS[4],
+    }
+    pie_colors = [color_map.get(m, CHART_COLORS[5]) for m in pay["Method"]]
+
     fig = go.Figure(go.Pie(
         labels=pay["Method"],
         values=pay["Count"],
         hole=0.55,
-        marker=dict(colors=CHART_COLORS[:len(pay)]),
+        marker=dict(colors=pie_colors),
         texttemplate="%{percent:.1%}",
         textposition="outside",
         textfont=dict(size=12, color=COLORS["text"]),
