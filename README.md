@@ -1,5 +1,7 @@
 # **🛍️ Dự Án Phân Tích E-Commerce Toàn Diện (End-to-End E-Commerce Analytics)**
 
+![Banner](assets/avt.png)
+
 ## **🔎 1. Tổng quan dự án**
 
 Dự án này là một **giải pháp phân tích dữ liệu toàn diện (Full-Stack Data Solution)** cho doanh nghiệp thương mại điện tử dựa trên tập dữ liệu lịch sử năm 2018 (51,290 đơn hàng). Quy trình triển khai chuyên nghiệp và khép kín qua 4 trụ cột cốt lõi:
