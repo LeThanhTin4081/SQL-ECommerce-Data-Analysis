@@ -1,6 +1,6 @@
 # 📈 Phân tích Dữ liệu Với SQL (SQL Analytics Showcase)
 
-Phân tích Dữ liệu trong dự án E-Commerce của tôi. Mục tiêu của phần này là **chứng minh khả năng tư duy phân tích (Analytical Thinking)** và **kỹ năng xử lý T-SQL phức tạp** (bao gồm CTEs, Window Functions, và Recursive Queries) ứng dụng vào thực tế doanh nghiệp.
+Phân tích Dữ liệu với SQL trong dự án E-Commerce. Mục tiêu của phần này là **chứng minh khả năng tư duy phân tích (Analytical Thinking)** và **kỹ năng xử lý T-SQL phức tạp** (bao gồm CTEs, Window Functions, và Recursive Queries) ứng dụng vào thực tế doanh nghiệp.
 
 Dưới đây là kết quả thực thi từ 10 bài toán phân tích mà tôi đã giải quyết trong kịch bản `03_advanced_analytics.sql` (dựa trên tập dữ liệu lịch sử năm 2018). Đối với mỗi truy vấn, tôi không chỉ dừng lại ở việc trích xuất số liệu mà còn đúc kết ra một dòng **Key Insight** để minh chứng cho khả năng Business Sense của mình.
 

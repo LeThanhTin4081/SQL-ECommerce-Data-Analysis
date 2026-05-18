@@ -99,12 +99,3 @@ Mô hình K-Means (K=3, Silhouette Score = 0.315) đã chia 38,995 khách hàng 
   - _Chiến lược:_ Chạy các chiến dịch Retargeting với voucher giảm giá mạnh để kích hoạt lại hoạt động mua sắm, nhưng cần kiểm soát chặt chẽ chi phí Marketing để đảm bảo ROI dương.
 
 ---
-
-## 🛠 Kiến trúc Module
-
-| Module                   | Vai trò       | Chi tiết                                                                                                                          |
-| ------------------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `utils/data_loader.py`   | Data Layer    | Load & cache 4 CSV files với `@st.cache_data`, ép kiểu dữ liệu, tạo features thời gian (Month, Quarter, Year_Month)               |
-| `utils/charts.py`        | Chart Factory | 15+ hàm tạo biểu đồ Plotly (Area, Bar, Donut, Heatmap, Treemap, Radar, Histogram, Combo), đồng bộ theme Dark mode                 |
-| `utils/styles.py`        | Design System | Color palette (9 màu), Plotly layout template, CSS injection (Glassmorphism, Inter font, gradient animations), KPI card component |
-| `.streamlit/config.toml` | App Config    | Dark theme configuration, headless server                                                                                         |
